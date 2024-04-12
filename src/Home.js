@@ -10,12 +10,19 @@ import {
   MDBBtn
 } from 'mdb-react-ui-kit';
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom"
 function Home()
 {
   const [apidata,setdata]=useState([])
+  const navigate= useNavigate();
   useEffect(()=>{
     getData()
   },[])
+  function getId(p_id)
+  {
+    const data = {name:p_id, add:"Indore"}
+    navigate ("/item",{state:data})
+  }
   async function getData()
   {
     var result=await fetch("https://fakestoreapi.com/products")
@@ -31,8 +38,8 @@ function Home()
       <br></br>
         <MDBRow className='row-cols-1 row-cols-md-3 g-4'>
      {
-      apidata.map((item)=>
-       <MDBCol>
+      apidata.map((item,i)=>
+       <MDBCol key={i}>
         <MDBCard>
          <center>
            <MDBCardImage
@@ -48,7 +55,7 @@ function Home()
                   <MDBCardTitle style={{color:"blue"}}>Rating-Rate : {item.rating.rate}</MDBCardTitle>
                   <MDBCardTitle style={{color:"blue"}}>Rating-Count : {item.rating.count}</MDBCardTitle>
                            <MDBCardTitle style={{color:"red"}}>Price : {item.price*80} RS</MDBCardTitle>
-                           <MDBBtn>View Details</MDBBtn>
+                           <MDBBtn onClick={()=>getId(item.id)}>View Details{item.id}</MDBBtn>
           </MDBCardBody>
         </MDBCard>
       </MDBCol> )

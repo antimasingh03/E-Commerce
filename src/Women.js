@@ -10,12 +10,21 @@ import {
   MDBBtn
 } from 'mdb-react-ui-kit';
 import Footer from "./Footer";
+import { useNavigate } from "react-router-dom"
+
 function Electronics()
 {
   const [apidata,setdata]=useState([])
+   const navigate= useNavigate();
+
   useEffect(()=>{
     getData()
   },[])
+   function getId(p_id)
+  {
+    const data = {name:p_id, add:"Indore"}
+    navigate ("/item",{state:data})
+  }
   async function getData()
   {
     var result=await fetch("https://fakestoreapi.com/products/category/women's%20clothing")
@@ -48,6 +57,8 @@ function Electronics()
                   <MDBCardTitle style={{color:"blue"}}>Rating-Rate : {item.rating.rate}</MDBCardTitle>
                   <MDBCardTitle style={{color:"blue"}}>Rating-Count : {item.rating.count}</MDBCardTitle>
                            <MDBCardTitle style={{color:"red"}}>Price : {item.price*80} RS</MDBCardTitle>
+                              <MDBBtn onClick={()=>getId(item.id)}>View Details{item.id}</MDBBtn>
+
                            <MDBBtn>View Details</MDBBtn>
           </MDBCardBody>
         </MDBCard>
